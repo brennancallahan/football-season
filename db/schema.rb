@@ -10,10 +10,50 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_27_004938) do
+ActiveRecord::Schema.define(version: 2019_08_27_013216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "conferences", force: :cascade do |t|
+    t.string "conference", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "divisions", force: :cascade do |t|
+    t.string "division", null: false
+    t.bigint "conference_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conference_id"], name: "index_divisions_on_conference_id"
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.string "home_team", null: false
+    t.string "away_team", null: false
+    t.string "city", null: false
+    t.string "stadium", null: false
+    t.string "date", null: false
+    t.string "additional_information"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "city", null: false
+    t.bigint "conference_id", null: false
+    t.bigint "division_id", null: false
+    t.bigint "game_id", null: false
+    t.string "colors", null: false
+    t.string "mascot", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conference_id"], name: "index_teams_on_conference_id"
+    t.index ["division_id"], name: "index_teams_on_division_id"
+    t.index ["game_id"], name: "index_teams_on_game_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
